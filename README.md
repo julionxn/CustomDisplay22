@@ -13,5 +13,11 @@ You can get the last release here by clicking [here](https://github.com/Julioxid
 Just unzip the .zip file of the download
 
 ## How to use
-Explanation in spanish: [Video](https://www.youtube.com/watch?v=I3DSqWI2oHo)
+
+### Spanish
+Explication in spanish: [![video](https://img.youtube.com/vi/https://www.youtube.com/watch?v=I3DSqWI2oHo/0.jpg)](https://www.youtube.com/watch?v=I3DSqWI2oHo)
+
+### English
+
+...under construction...
 
