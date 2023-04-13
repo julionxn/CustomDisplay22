@@ -3,8 +3,18 @@
 ## Description
 An application that automatically generates an animation displayed by /title
 
+## Table of contents
+- [CustomDisplay22](#customdisplay22)
+  * [Description](#description)
+  * [Warning](#warning)
+  * [Download](#download)
+  * [Installation](#installation)
+  * [How to use](#how-to-use)
+    + [Español](#espa-ol)
+    + [English](#english)
+
 ## Warning
-The antivirus may pop saying that the file is infected, I recommend disabling it while downloading, installing and using.
+The antivirus may pop saying that the file is infected, it's not. I recommend disabling it while downloading, installing and using.
 
 ## Download
 You can get the last release here by clicking [here](https://github.com/Julioxidop/CustomDisplay22/releases/tag/1.1)
