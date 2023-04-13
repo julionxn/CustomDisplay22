@@ -43,7 +43,14 @@ projects = [f for f in listdir("./projects/") if isfile(join("./projects/", f))]
 for i in projects:
     frame.add_item(readProject(i).name)
 
-
+try:
+    os.mkdir("./projects")
+except:
+    pass
+try:
+    os.mkdir("./.output")
+except:
+    pass
 
 
 
