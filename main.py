@@ -35,7 +35,7 @@ label.place(x=30,y=60)
 def newProject():
     NewProjectScreen(root)
 
-version = tk.CTkLabel(root, text="v1.0", font=("Roboto",12))
+version = tk.CTkLabel(root, text="v1.1", font=("Roboto",12))
 version.place(x=100,y=220)
 
 newB = tk.CTkButton(root, text="New Project",command=newProject)
