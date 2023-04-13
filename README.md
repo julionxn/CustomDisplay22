@@ -1,8 +1,8 @@
 # CustomDisplay22
 
 ## Description
-An application that automatically generates an animation displayed by /title
-
+An application that automatically generates an animation displayed with /title commands
+ 
 ## Table of contents
 - [CustomDisplay22](#customdisplay22)
   * [Description](#description)
