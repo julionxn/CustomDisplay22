@@ -17,7 +17,7 @@ class NewProjectScreen(tk.CTkToplevel):
         def createProject():
             name = self.entry.get()
             try:
-                os.mkdir(f"./projects/{name}")
+                os.mkdir(f"./.projects/{name}")
             except Exception:
                 pass
             new = Project(name)

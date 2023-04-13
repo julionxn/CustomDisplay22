@@ -3,11 +3,11 @@ import json
 
 
 def readProject(name: str):
-    with open(f"./projects/{name}", "rb") as project:
+    with open(f"./.projects/{name}", "rb") as project:
         return pickle.load(project)
     
 def saveProject(name:str, data):
-    with open(f"./projects/{name}", "wb") as project:
+    with open(f"./.projects/{name}", "wb") as project:
         pickle.dump(data, project)
 
 def loadJson(dir):

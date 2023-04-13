@@ -5,7 +5,6 @@ from os import listdir
 from os.path import isfile, join
 from PIL import Image
 import tkinter as tkk
-from tkinter import messagebox
 
 class AnimationScreen(tk.CTkToplevel):
     def __init__(self, master, project:Project.Project, animation:Animation.Animation):
@@ -26,11 +25,11 @@ class AnimationScreen(tk.CTkToplevel):
         self.label.place(x=0,y=10)
 
         def loadFrames():
-            frameImages = [f for f in listdir(f"./projects/{self.project.name}/{self.animation.name}/") if f.endswith(".png") and isfile(join(f"./projects/{self.project.name}/{self.animation.name}/", f))]
+            frameImages = [f for f in listdir(f"./.projects/{self.project.name}/{self.animation.name}/") if f.endswith(".png") and isfile(join(f"./.projects/{self.project.name}/{self.animation.name}/", f))]
             for index, frame in enumerate(frameImages):
                 self.frames[str(index)] = frame
             self.animation.frames = self.frames
-            pilimg = Image.open(f"./projects/{self.project.name}/{self.animation.name}/{self.frames[str(0)]}")
+            pilimg = Image.open(f"./.projects/{self.project.name}/{self.animation.name}/{self.frames[str(0)]}")
             self.animation.size[0] = pilimg.width
             self.animation.size[1] = pilimg.height
             self.preview.configure(image=self.getPreview(0))
@@ -137,7 +136,7 @@ class AnimationScreen(tk.CTkToplevel):
 
 
     def getPreview(self,index):
-        img = Image.open(f"./projects/{self.project.name}/{self.animation.name}/{self.frames[str(index)]}")
+        img = Image.open(f"./.projects/{self.project.name}/{self.animation.name}/{self.frames[str(index)]}")
         print(self.animation.options)
         if self.animation.options["type"] == "autogen":
             scale = int(self.animation.options["scale"])

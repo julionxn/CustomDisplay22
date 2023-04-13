@@ -98,7 +98,7 @@ def genResourcePack(pName, animations):
         animationH = animation.size[1]
         jsonPath = f"minecraft:animations/{name}"
         animationDestPath = f"./.output/{pName}/{pName}-ResourcePack/assets/minecraft/textures/animations/{name}"
-        animationSourcePath = f"./projects/{pName}/{name}"
+        animationSourcePath = f"./.projects/{pName}/{name}"
         mkdir(animationDestPath)
         #copy frames
         for frame in glob.iglob(os.path.join(animationSourcePath, "*.png")):

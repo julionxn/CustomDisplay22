@@ -18,7 +18,7 @@ class NewAnimationScreen(tk.CTkToplevel):
         def createAnimation():
             name = self.entry.get()
             try:
-                os.mkdir(f"./projects/{tl.project.name}/{name}")
+                os.mkdir(f"./.projects/{tl.project.name}/{name}")
             except Exception:
                 pass
             tl.project.saveAnimation(Animation(name))
