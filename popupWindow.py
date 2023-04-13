@@ -3,7 +3,7 @@ import customtkinter as tk
 class PopupWindow(tk.CTkToplevel):
     def __init__(self, master, title, text):
         super().__init__()
-        self.title = title
+        self.title(title)
         self.geometry("250x80")
         self.geometry("+%d+%d" %(master.winfo_x()+125,master.winfo_y()+40))
 

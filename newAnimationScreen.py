@@ -10,7 +10,7 @@ class NewAnimationScreen(tk.CTkToplevel):
     def __init__(self, tl):
         super().__init__(tl)
         self.geometry("250x100")
-        self.title("New Project")
+        self.title("New Animation")
         self.resizable(False,False)
 
         self.label = tk.CTkLabel(self, text="New Animation Name")
