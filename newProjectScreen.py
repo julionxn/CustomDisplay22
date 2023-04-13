@@ -9,6 +9,8 @@ class NewProjectScreen(tk.CTkToplevel):
         super().__init__(master)
         self.geometry("250x100")
         self.title("New Project")
+        self.resizable(False,False)
+
         self.label = tk.CTkLabel(self, text="New Project Name")
         self.label.pack()
         self.entry = tk.CTkEntry(self)
@@ -28,7 +30,7 @@ class NewProjectScreen(tk.CTkToplevel):
 
         self.button = tk.CTkButton(self, text="Create", command= lambda: createProject())
         self.button.pack(pady=5)
-        self.geometry("+%d+%d" %(master.winfo_x(),master.winfo_y()+50))
+        self.geometry("+%d+%d" %(master.winfo_x()+125,master.winfo_y()+50))
         master.withdraw()
 
         def on_closing():

@@ -10,6 +10,8 @@ class NewAnimationScreen(tk.CTkToplevel):
         super().__init__(tl)
         self.geometry("250x100")
         self.title("New Project")
+        self.resizable(False,False)
+
         self.label = tk.CTkLabel(self, text="New Animation Name")
         self.label.pack()
         self.entry = tk.CTkEntry(self)
@@ -29,7 +31,7 @@ class NewAnimationScreen(tk.CTkToplevel):
 
         self.button = tk.CTkButton(self, text="Create", command= lambda: createAnimation())
         self.button.pack(pady=5)
-        self.geometry("+%d+%d" %(tl.winfo_x(),tl.winfo_y()+50))
+        self.geometry("+%d+%d" %(tl.winfo_x()+125,tl.winfo_y()+50))
         tl.withdraw()
 
         def on_closing():

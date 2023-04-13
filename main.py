@@ -13,8 +13,18 @@ tk.set_appearance_mode("dark")
 tk.set_default_color_theme("dark-blue")
 
 root = tk.CTk()
-root.geometry("500x370")
 root.title("Custom Display 22")
+root.resizable(False,False)
+
+width = 500
+height = 370 
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight() 
+x = (screen_width/2) - (width/2)
+y = (screen_height/2) - (height/2)
+ 
+root.geometry('%dx%d+%d+%d' % (width, height, x, y))
+
 
 image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "src")
 home_image = tk.CTkImage(light_image=Image.open(os.path.join(image_path, "LogoName.png")),
@@ -25,11 +35,15 @@ label.place(x=30,y=60)
 def newProject():
     NewProjectScreen(root)
 
+version = tk.CTkLabel(root, text="v1.0", font=("Roboto",12))
+version.place(x=100,y=220)
+
 newB = tk.CTkButton(root, text="New Project",command=newProject)
-newB.place(x=40,y=150)
+newB.place(x=40,y=140)
+    
 
 newB = tk.CTkButton(root, text="Import Project")
-newB.place(x=40,y=190)
+newB.place(x=40,y=180)
 
 def openProject(name):
     project = readProject(f"{name}.cd22")

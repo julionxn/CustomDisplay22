@@ -4,6 +4,7 @@ from os import mkdir
 from helper import loadJson, dumpJson, genFunc
 import os
 import glob
+from PIL import Image, ImageDraw
 
 #Project structure:
 #   name: str
@@ -33,10 +34,12 @@ def genRootFolders(pName):
     copytree("./src/preset/dp", f"./.output/{pName}/{pName}-Datapack")
 
 
+
 def genDatapack(pName, animations):
     place = 57392
-    path = f"./.output/{pName}/{pName}-Datapack/data/¿"
-    os.rename(path.replace("¿","holder"), path.replace("¿",pName))
+    path = f"./.output/{pName}/{pName}-Datapack/data/"
+    os.mkdir(f"{path}/{pName}")
+    os.mkdir(f"{path}/{pName}/functions")
     for name in list(animations.keys()):
         animation = animations[name]
         #make folder for the animation
@@ -52,7 +55,7 @@ def genDatapack(pName, animations):
         genFunc(f"./.output/{pName}/{pName}-Datapack/data/{pName}/functions/reset.mcfunction", lines)
         #make the function for each frame
         for key in list(animation.frames.keys()):
-            data = {"text": f"{chr(place)} "}
+            data = {"text": f"{chr(place)}"}
             if int(key) < len(list(animation.frames.keys())) - 1:
                 lines = [
                 f"execute as @a[tag=cd22_{pName}_{name}_{key}] run title @s title {data}".replace("\'","\""),
@@ -105,7 +108,14 @@ def genResourcePack(pName, animations):
             copy(frame, animationDestPath)
         #add each frame to default.json
         for key in list(animation.frames.keys()):
-            frameFile = animation.frames[key]
+            frameFile = animation.frames[str(key)]
+
+            #open frame, add pixels to correct centering, and into de the textures/animations folder
+            img = Image.open(f"{animationSourcePath}/{frameFile}")
+            draw = ImageDraw.Draw(img)
+            draw.point(((0,0),(img.width-1,img.height-1)),(0,0,0,1))
+            img.save(f"{animationDestPath}/{frameFile}")
+
             bp = {"type": "bitmap",
                 "file": f"{jsonPath}/{frameFile}",
                 "ascent": 0,
@@ -122,3 +132,4 @@ def genResourcePack(pName, animations):
             default["providers"].append(bp)
             place += 1
     dumpJson(path, default)
+

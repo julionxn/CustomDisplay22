@@ -6,8 +6,9 @@ class Project(object):
         self.animations = {}
 
     def addAnimation(self, name):
-        self.animations[name] = Animation(name)
         print("animation added")
+        self.animations[str(name)] = Animation(name)
+        
 
     def getAnimation(self,name):
         return self.animations[name]

@@ -15,6 +15,8 @@ class AnimationScreen(tk.CTkToplevel):
         self.frames = {}
         self.currentFrame = 0
         self.geometry("500x370")
+        self.geometry("+%d+%d" %(master.winfo_x(),master.winfo_y()))
+        self.resizable(False,False)
 
         #=========Preview===========#
         self.framesFrame = tk.CTkFrame(self,width=360,height=370,corner_radius=0)
@@ -26,13 +28,17 @@ class AnimationScreen(tk.CTkToplevel):
 
         def loadFrames():
             frameImages = [f for f in listdir(f"./.projects/{self.project.name}/{self.animation.name}/") if f.endswith(".png") and isfile(join(f"./.projects/{self.project.name}/{self.animation.name}/", f))]
+            frameImages = tkk.Tcl().call('lsort', '-dict', frameImages)
             for index, frame in enumerate(frameImages):
                 self.frames[str(index)] = frame
             self.animation.frames = self.frames
-            pilimg = Image.open(f"./.projects/{self.project.name}/{self.animation.name}/{self.frames[str(0)]}")
-            self.animation.size[0] = pilimg.width
-            self.animation.size[1] = pilimg.height
-            self.preview.configure(image=self.getPreview(0))
+            try:
+                pilimg = Image.open(f"./.projects/{self.project.name}/{self.animation.name}/{self.frames[str(0)]}")
+                self.animation.size[0] = pilimg.width
+                self.animation.size[1] = pilimg.height
+                self.preview.configure(image=self.getPreview(0))
+            except:
+                pass
 
         self.load = tk.CTkButton(self, text="Load Frames", command=loadFrames)
         self.load.place(x=110,y=70)
@@ -128,7 +134,8 @@ class AnimationScreen(tk.CTkToplevel):
         master.withdraw()
 
         def on_closing():
-            self.project.saveAnimation(self.animation)
+            print("called")
+            self.project.animations[self.animation.name] = self.animation
             master.deiconify()
             self.destroy()
 
