@@ -15,7 +15,7 @@ Just unzip the .zip file of the download
 ## How to use
 
 ### Spanish
-Explication in spanish: [![video](https://img.youtube.com/vi/https://www.youtube.com/watch?v=I3DSqWI2oHo/0.jpg)](https://www.youtube.com/watch?v=I3DSqWI2oHo)
+Explicación en español: [Video](https://www.youtube.com/watch?v=I3DSqWI2oHo)
 
 ### English
 
