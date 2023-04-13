@@ -3,6 +3,7 @@ from Project import Project
 from helper import saveProject
 from projectScreen import ProjectScreen
 import os
+from re import match
 
 class NewProjectScreen(tk.CTkToplevel):
     def __init__(self, master: tk.CTk):
@@ -13,7 +14,12 @@ class NewProjectScreen(tk.CTkToplevel):
 
         self.label = tk.CTkLabel(self, text="New Project Name")
         self.label.pack()
-        self.entry = tk.CTkEntry(self)
+
+        def check(P):
+            return bool(match("^[a-z0-9_]*$", str(P)))
+        vcmd = (self.register(check))
+
+        self.entry = tk.CTkEntry(self, validate='all', validatecommand=(vcmd, '%P'))
         self.entry.pack()
 
         def createProject():

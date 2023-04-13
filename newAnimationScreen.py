@@ -4,6 +4,7 @@ from helper import saveProject
 from animationScreen import AnimationScreen
 from Animation import Animation
 import os
+from re import match
 
 class NewAnimationScreen(tk.CTkToplevel):
     def __init__(self, tl):
@@ -14,7 +15,12 @@ class NewAnimationScreen(tk.CTkToplevel):
 
         self.label = tk.CTkLabel(self, text="New Animation Name")
         self.label.pack()
-        self.entry = tk.CTkEntry(self)
+
+        def check(P):
+            return bool(match("^[a-z0-9_]*$", str(P)))
+        vcmd = (self.register(check))
+
+        self.entry = tk.CTkEntry(self, validate='all', validatecommand=(vcmd, '%P'))
         self.entry.pack()
 
         def createAnimation():
