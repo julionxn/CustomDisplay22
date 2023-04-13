@@ -39,10 +39,6 @@ def openProject(name):
 frame = ScrollableLabelButtonFrame(root,width=240,height=300,command=openProject)
 frame.place(x=220,y=30)
 
-projects = [f for f in listdir("./projects/") if isfile(join("./projects/", f))]
-for i in projects:
-    frame.add_item(readProject(i).name)
-
 try:
     os.mkdir("./projects")
 except:
@@ -51,6 +47,12 @@ try:
     os.mkdir("./.output")
 except:
     pass
+
+projects = [f for f in listdir("./projects/") if isfile(join("./projects/", f))]
+for i in projects:
+    frame.add_item(readProject(i).name)
+
+
 
 
 
