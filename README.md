@@ -14,7 +14,7 @@ Just unzip the .zip file of the download
 
 ## How to use
 
-### Spanish
+### Español
 Explicación en español: [Video](https://www.youtube.com/watch?v=I3DSqWI2oHo)
 
 ### English
