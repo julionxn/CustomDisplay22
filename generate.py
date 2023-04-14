@@ -114,13 +114,15 @@ def genDatapack(pName, animations):
         #make starting function for the animation
         animationSoundFile = animation.sound
         if animationSoundFile not in [" ",""]:
-            lines = [f"tag @s add cd22_{pName}_{name}_0",
-                    f"title @s times 0 2 0",
-                    f"execute as @s at @s run playsound minecraft:{pName}.{os.path.basename(animationSoundFile)[:-4]} master @s ~ ~ ~ 1 1 1",
+            lines = [f"tag @s[tag=!cd22_{pName}_{name}_started] add cd22_{pName}_{name}_0",
+                    f"title @s[tag=!cd22_{pName}_{name}_started] times 0 10 0",
+                    f"execute as @s[tag=!cd22_{pName}_{name}_started] at @s run playsound minecraft:{pName}.{os.path.basename(animationSoundFile)[:-4]} master @s ~ ~ ~ 1 1 1",
+                    f"tag @s add cd22_{pName}_{name}_started",
                     f"schedule function {pName}:{name}/0 1t"]
         else:
-            lines = [f"tag @s add cd22_{pName}_{name}_0",
-                    f"title @s times 0 2 0",
+            lines = [f"tag @s[tag=!cd22_{pName}_{name}_started] add cd22_{pName}_{name}_0",
+                    f"title @s[tag=!cd22_{pName}_{name}_started] times 0 10 0",
+                    f"tag @s add cd22_{pName}_{name}_started",
                     f"schedule function {pName}:{name}/0 1t"]
         genFunc(f"./.output/{pName}/{pName}-Datapack/data/{pName}/functions/_{name}.mcfunction", lines)
         lines = ["title @a[tag=cd22_final] reset",
@@ -140,6 +142,7 @@ def genDatapack(pName, animations):
                 lines = [
                 f"execute as @a[tag=cd22_{pName}_{name}_{key}] run title @s title {data}".replace("\'","\""),
                 f"tag @a[tag=cd22_{pName}_{name}_{key}] add cd22_final",
+                f"tag @a[tag=cd22_{pName}_{name}_{key}] remove cd22_{pName}_{name}_started",
                 f"tag @a[tag=cd22_{pName}_{name}_{key}] remove cd22_{pName}_{name}_{key}",
                 f"schedule function {pName}:reset 1t"
             ]

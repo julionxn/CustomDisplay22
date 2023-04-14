@@ -35,7 +35,7 @@ label.place(x=30,y=60)
 def newProject():
     NewProjectScreen(root)
 
-version = tk.CTkLabel(root, text="v1.1", font=("Roboto",12))
+version = tk.CTkLabel(root, text="v1.2", font=("Roboto",12))
 version.place(x=100,y=220)
 
 newB = tk.CTkButton(root, text="New Project",command=newProject)
@@ -64,7 +64,14 @@ except:
 
 projects = [f for f in listdir("./.projects/") if isfile(join("./.projects/", f))]
 for i in projects:
-    frame.add_item(readProject(i).name)
+    project = readProject(i)
+    try:
+        if project.version == "1.2":
+            frame.add_item(readProject(i).name)
+        else:
+            frame.add_item(f"[OUTDATED] {readProject(i).name}")
+    except:
+        frame.add_item(f"[OUTDATED] {readProject(i).name}")
 
 
 

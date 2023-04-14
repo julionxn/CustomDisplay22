@@ -5,7 +5,6 @@ from os import listdir
 from os.path import isfile, join, basename
 from PIL import Image
 import tkinter as tkk
-from tkinter import filedialog
 from re import match
 
 class AnimationScreen(tk.CTkToplevel):
@@ -117,7 +116,6 @@ class AnimationScreen(tk.CTkToplevel):
             self.entry_scale.configure(state="disabled")
             self.entry_height.configure(state="normal")
             self.reload()
-            self.preview.configure(image=tk.CTkImage(dark_image=Image.open(f"./src/noPreview.png"), size=(320,180)))
             
         self.autogen = tk.CTkRadioButton(self, text="Auto-size", variable=self.type, value=0, command=autosize)
         self.autogen.place(x=380,y=120)
@@ -178,8 +176,7 @@ class AnimationScreen(tk.CTkToplevel):
             scale = int(self.animation.options["scale"])
             img = img.resize((int((img.width * 320 / 1239)*scale), int((img.height * 180 / 697)*scale)))
         elif self.animation.options["type"] == "custom":
-            height = int(self.animation.options["height"])
-            scale = round(img.width / (8 * height))
+            scale = int(self.animation.options["scale"])
             img = img.resize((int((img.width * 320 / 1239)*scale), int((img.height * 180 / 697)*scale)))
 
         default = Image.open("./src/defaultPreview.png")
@@ -195,4 +192,15 @@ class AnimationScreen(tk.CTkToplevel):
                     self.preview.configure(image=self.getPreview(self.currentFrame))
                     self.type_scale.set(str(newscale))
                 except ValueError:
+                    pass
+            elif self.animation.options["type"] == "custom" and self.type_height.get() not in [" ", ""]:
+                try:
+                    height = int(self.type_height.get())
+                    newscale = int((8*height)/self.animation.size[1])
+                    self.animation.options["scale"] = newscale
+                    self.animation.options["height"] = height
+                    self.preview.configure(image=self.getPreview(self.currentFrame))
+                    self.type_scale.set(str(newscale))
+                    self.type_height.set(str(height))
+                except:
                     pass

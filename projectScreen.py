@@ -44,7 +44,7 @@ class ProjectScreen(tk.CTkToplevel):
         def gen():
             save()
             generate(self.project)
-            PopupWindow(self, "Done", "You project have been generated.")
+            PopupWindow(self, "Done", "You project has been generated.")
 
 
         self.gen = tk.CTkButton(self, text="Generate", font=("Roboto",16), command=gen)
