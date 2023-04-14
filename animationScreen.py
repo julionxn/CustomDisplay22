@@ -2,9 +2,11 @@ import customtkinter as tk
 import Animation
 import Project
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, basename
 from PIL import Image
 import tkinter as tkk
+from tkinter import filedialog
+from re import match
 
 class AnimationScreen(tk.CTkToplevel):
     def __init__(self, master, project:Project.Project, animation:Animation.Animation):
@@ -14,33 +16,56 @@ class AnimationScreen(tk.CTkToplevel):
         self.title(self.project.name + " -> " + self.animation.name)
         self.frames = {}
         self.currentFrame = 0
-        self.geometry("500x370")
+        self.loadedSound = True if self.animation.sound != "" else False
+        self.geometry("500x380")
         self.geometry("+%d+%d" %(master.winfo_x(),master.winfo_y()))
         self.resizable(False,False)
 
         #=========Preview===========#
-        self.framesFrame = tk.CTkFrame(self,width=360,height=370,corner_radius=0)
+        self.framesFrame = tk.CTkFrame(self,width=360,height=380,corner_radius=0)
         self.framesFrame.place(x=0,y=0)
 
 
         self.label = tk.CTkLabel(self, text=self.animation.name, font=("Roboto",30),width=360,bg_color="#212121")
         self.label.place(x=0,y=10)
 
-        def loadFrames():
+        def loadData():
             frameImages = [f for f in listdir(f"./.projects/{self.project.name}/{self.animation.name}/") if f.endswith(".png") and isfile(join(f"./.projects/{self.project.name}/{self.animation.name}/", f))]
+            animSound = [f for f in listdir(f"./.projects/{self.project.name}/{self.animation.name}/") if f.endswith(".ogg") and isfile(join(f"./.projects/{self.project.name}/{self.animation.name}/", f))]
             frameImages = tkk.Tcl().call('lsort', '-dict', frameImages)
             for index, frame in enumerate(frameImages):
                 self.frames[str(index)] = frame
             self.animation.frames = self.frames
+            if len(animSound) > 0:
+                if bool(match("^[a-z0-9_]*$", str(animSound[0][:-4]))):
+                    self.animation.sound = animSound[0]
+                    print(animSound[0])
+                    state = True
+                else:
+                    state = False
+            else:
+                state= True
+                self.animation.sound = ""
             try:
                 pilimg = Image.open(f"./.projects/{self.project.name}/{self.animation.name}/{self.frames[str(0)]}")
                 self.animation.size[0] = pilimg.width
                 self.animation.size[1] = pilimg.height
                 self.preview.configure(image=self.getPreview(0))
             except:
-                pass
+                self.labelfb.configure(text="Error while reading frames")
+            if state:
+                if len(frameImages) > 0:
+                    if len(animSound) > 0:
+                        self.labelfb.configure(text="Frames and sound loaded")
+                    else:
+                        self.labelfb.configure(text="Frames loaded")
+                else:
+                    self.labelfb.configure(text="Frames not founded")
+            else:
+                self.labelfb.configure(text="Invalid sound filename")
+            
 
-        self.load = tk.CTkButton(self, text="Load Frames", command=loadFrames)
+        self.load = tk.CTkButton(self, text="Load Data", command=loadData)
         self.load.place(x=110,y=70)
 
         self.defaultPreview = Image.open("./src/defaultPreview.png")
@@ -64,6 +89,10 @@ class AnimationScreen(tk.CTkToplevel):
 
         self.next = tk.CTkButton(self, text="<", width=28, command=prevFrame)
         self.next.place(x=130,y=300)
+
+        self.labelfb = tk.CTkLabel(self, text="", bg_color="#212121", width=360, anchor=tk.CENTER)
+        self.labelfb.place(x=0,y=340)
+
 
         #=========Options===========#
 
@@ -128,7 +157,7 @@ class AnimationScreen(tk.CTkToplevel):
             self.entry_scale.configure(state="disabled")
             self.entry_height.configure(state="normal")
 
-        loadFrames()
+        loadData()
 
         ###CLOSING
         master.withdraw()
