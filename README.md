@@ -17,7 +17,7 @@ An application that automatically generates an animation displayed with /title c
 The antivirus may pop saying that the file is infected, it's not. I recommend disabling it while downloading, installing and using.
 
 ## Download
-You can get the last release here by clicking [here](https://github.com/Julioxidop/CustomDisplay22/releases/tag/1.1)
+You can get the last release here by clicking [here](https://github.com/Julioxidop/CustomDisplay22/releases/latest)
 
 ## Installation
 Just unzip the .zip file of the download
