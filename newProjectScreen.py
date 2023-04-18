@@ -15,13 +15,17 @@ class NewProjectScreen(tk.CTkToplevel):
         self.label = tk.CTkLabel(self, text="New Project Name")
         self.label.pack()
 
+        #Check if the entry is valid
         def check(P):
             return bool(match("^[a-z0-9_]*$", str(P)))
         vcmd = (self.register(check))
 
+        #Name entry
         self.entry = tk.CTkEntry(self, validate='all', validatecommand=(vcmd, '%P'))
         self.entry.pack()
 
+        #Create project
+            #Behaviour
         def createProject():
             name = self.entry.get()
             try:
@@ -34,11 +38,15 @@ class NewProjectScreen(tk.CTkToplevel):
             
             self.destroy()
 
+            #Button
         self.button = tk.CTkButton(self, text="Create", command= lambda: createProject())
         self.button.pack(pady=5)
+
+        #Window behaviour
         self.geometry("+%d+%d" %(master.winfo_x()+125,master.winfo_y()+50))
         master.withdraw()
 
+        #Closing
         def on_closing():
             master.deiconify()
             self.destroy()

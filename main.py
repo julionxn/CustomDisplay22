@@ -40,7 +40,7 @@ version.place(x=100,y=220)
 
 newB = tk.CTkButton(root, text="New Project",command=newProject)
 newB.place(x=40,y=140)
-    
+
 
 newB = tk.CTkButton(root, text="Import Project")
 newB.place(x=40,y=180)
@@ -72,8 +72,6 @@ for i in projects:
             frame.add_item(f"[OUTDATED] {readProject(i).name}")
     except:
         frame.add_item(f"[OUTDATED] {readProject(i).name}")
-
-
 
 
 

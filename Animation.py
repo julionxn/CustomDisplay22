@@ -1,3 +1,4 @@
+#Animation class
 class Animation():
     def __init__(self, name) -> None:
         self.name = name

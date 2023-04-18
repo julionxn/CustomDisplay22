@@ -6,11 +6,6 @@ class Project(object):
         self.version = "1.2"
         self.animations = {}
 
-    def addAnimation(self, name):
-        print("animation added")
-        self.animations[str(name)] = Animation(name)
-        
-
     def getAnimation(self,name):
         return self.animations[name]
 
