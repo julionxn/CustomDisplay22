@@ -34,7 +34,9 @@ class ProjectScreen(tk.CTkToplevel):
         
         #Save project
             #Behaviour
-        def save():
+        def save(popup = True):
+            if popup:
+                PopupWindow(self, "Project saved", "Project saved correctly.")
             saveProject(f"{self.project.name}.cd22",self.project)
             #Button
         self.save = tk.CTkButton(self, text="Save", font=("Roboto",16),width=28, command=save)
@@ -51,7 +53,7 @@ class ProjectScreen(tk.CTkToplevel):
         #Generate
             #Behaviour
         def gen():
-            save()
+            save(False)
             generate(self.project)
             PopupWindow(self, "Done", "You project has been generated.")
             #Button

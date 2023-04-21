@@ -105,8 +105,13 @@ def genResourcePack(pName, animations):
                 height = int((animationH*scale)/8)
             elif animationOpts["type"] == "custom":
                 height = animationOpts["height"]
-            bp["height"] = height
-            bp["ascent"] = int(height/2)
+            if height < 256:
+                bp["height"] = height
+                bp["ascent"] = int(height/2)
+                
+            else:
+                bp["height"] = 256
+                bp["ascent"] = 128
             default["providers"].append(bp)
             place += 1
     dumpJson(defaultJsonFile, default)

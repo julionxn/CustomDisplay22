@@ -7,6 +7,7 @@ from PIL import Image
 import tkinter as tkk
 from re import match
 from subprocess import Popen
+from popupWindow import PopupWindow
 
 class AnimationScreen(tk.CTkToplevel):
     def __init__(self, master, project:Project.Project, animation:Animation.Animation):
@@ -132,11 +133,14 @@ class AnimationScreen(tk.CTkToplevel):
 
 
         #Reload when changing valuos of scale or height
-        def callback(ctx):
+        def callbackScale(ctx):
             self.reload()
 
-        self.type_scale.trace("w", lambda name, index,mode, type_scale=self.type_scale: callback(type_scale))
-        self.type_height.trace("w", lambda name, index,mode, type_height=self.type_height: callback(type_height))
+        def callbackHeight(ctx):
+            self.reload()
+
+        self.type_scale.trace("w", lambda name, index,mode, type_scale=self.type_scale: callbackScale(type_scale))
+        self.type_height.trace("w", lambda name, index,mode, type_height=self.type_height: callbackHeight(type_height))
 
         #Load data
         if self.animation.options["type"] == "autogen":
@@ -159,12 +163,24 @@ class AnimationScreen(tk.CTkToplevel):
         self.protocol("WM_DELETE_WINDOW", on_closing)
 
     def loadData(self):
-            frameImages = [f for f in listdir(f"./.projects/{self.project.name}/{self.animation.name}/") if f.endswith(".png") and isfile(join(f"./.projects/{self.project.name}/{self.animation.name}/", f))]
-            animSound = [f for f in listdir(f"./.projects/{self.project.name}/{self.animation.name}/") if f.endswith(".ogg") and isfile(join(f"./.projects/{self.project.name}/{self.animation.name}/", f))]
-            frameImages = tkk.Tcl().call('lsort', '-dict', frameImages)
-            for index, frame in enumerate(frameImages):
-                self.frames[str(index)] = frame
-            self.animation.frames = self.frames
+            try:
+                frameImages = [f for f in listdir(f"./.projects/{self.project.name}/{self.animation.name}/") if f.endswith(".png") and isfile(join(f"./.projects/{self.project.name}/{self.animation.name}/", f))]
+                animSound = [f for f in listdir(f"./.projects/{self.project.name}/{self.animation.name}/") if f.endswith(".ogg") and isfile(join(f"./.projects/{self.project.name}/{self.animation.name}/", f))]
+                frameImages = tkk.Tcl().call('lsort', '-dict', frameImages)
+                for index, frame in enumerate(frameImages):
+                    self.frames[str(index)] = frame
+                self.animation.frames = self.frames
+                pilimg = Image.open(f"./.projects/{self.project.name}/{self.animation.name}/{self.frames[str(0)]}")
+                self.animation.size[0] = pilimg.width
+                self.animation.size[1] = pilimg.height
+                if self.animation.size[1] > 256 or self.animation.size[0] > 256:
+                    self.labelfb.configure(text="Frame size error")
+                    PopupWindow(self, "Size error", "Frame size cannot exceed\n256 x 256 pixels.")
+                    return
+                self.preview.configure(image=self.getPreview(0))
+            except:
+                self.labelfb.configure(text="Error while reading frames")
+                return
             if len(animSound) > 0:
                 if bool(match("^[a-z0-9_]*$", str(animSound[0][:-4]))):
                     self.animation.sound = animSound[0]
@@ -174,13 +190,6 @@ class AnimationScreen(tk.CTkToplevel):
             else:
                 state= True
                 self.animation.sound = ""
-            try:
-                pilimg = Image.open(f"./.projects/{self.project.name}/{self.animation.name}/{self.frames[str(0)]}")
-                self.animation.size[0] = pilimg.width
-                self.animation.size[1] = pilimg.height
-                self.preview.configure(image=self.getPreview(0))
-            except:
-                self.labelfb.configure(text="Error while reading frames")
             if state:
                 if len(frameImages) > 0:
                     if len(animSound) > 0:
@@ -197,7 +206,7 @@ class AnimationScreen(tk.CTkToplevel):
             Popen(fr"explorer {path}")
 
     def getPreview(self,index):
-        img = Image.open(f"./.projects/{self.project.name}/{self.animation.name}/{self.frames[str(index)]}")
+        img = Image.open(f"./.projects/{self.project.name}/{self.animation.name}/{self.frames[str(index)]}").convert("RGBA")
         if self.animation.options["type"] == "autogen":
             scale = int(self.animation.options["scale"])
             img = img.resize((int((img.width * 320 / 1239)*scale), int((img.height * 180 / 697)*scale)), resample=Image.NEAREST)
@@ -205,7 +214,7 @@ class AnimationScreen(tk.CTkToplevel):
             scale = int(self.animation.options["scale"])
             img = img.resize((int((img.width * 320 / 1239)*scale), int((img.height * 180 / 697)*scale)), resample=Image.NEAREST)
 
-        default = Image.open("./src/defaultPreview.png")
+        default = Image.open("./src/defaultPreview.png").convert("RGBA")
         default.paste(img, (int((320-img.width)/2),int((180-img.height)/2)), img)
 
         return tk.CTkImage(dark_image=default, size=(320,180))
