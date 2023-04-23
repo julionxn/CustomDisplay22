@@ -87,7 +87,7 @@ def genResourcePack(pName, animations):
             frameFile = animation.frames[str(key)]
 
             #open frame, add pixels to correct centering, and into de the textures/animations folder
-            img = Image.open(f"{animationSourcePath}/{frameFile}")
+            img = Image.open(f"{animationSourcePath}/{frameFile}").convert("RGBA")
             draw = ImageDraw.Draw(img)
             draw.point(((0,0),(img.width-1,img.height-1)),(0,0,0,1))
             img.save(f"{animationDestPath}/{frameFile}")
